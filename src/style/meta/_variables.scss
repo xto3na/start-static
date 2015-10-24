@@ -1,0 +1,50 @@
+$black: #000;
+$light-black: #1e1e1e;
+$grey: #ccc;
+
+$sp-blue: #279BCC;
+$sp-red: #F06A75;
+$sp-yellow: #FBEF01;
+$sp-green: #A9D06F;
+
+$md-red: #F44336;
+$md-violet: #7C4DFF;
+$md-green: #69F0AE;
+
+$white: #fff;
+$green: #7bd668;
+
+
+$cs-orange: #ff4f00;
+$cs-yellow: #ffd200;
+$cs-blue: #4512f6;
+$cs-green: #00f599;
+
+/********** COLOR-SCHEME *************/
+
+$first-clr: #84ccc1;
+$second-clr: #ee514a;
+$third-clr: #fff;
+$fourth-clr: #022f32;
+$fifth-clr: #087070;
+
+$bg-main-clr: #fff;
+$bg-header-clr: #84ccc1;
+$bg-footer-clr: #087070;
+$bg-footer-power-clr: #022f32;
+
+$btn-main-clr: rgba(238,81,74,1);
+$btn-main-hover-clr: rgba(238,81,74,.6);
+
+$btn-second-clr: rgba(238,81,74,.6);
+$btn-second-hover-clr: rgba(238,81,74,1);
+
+/********** COLOR-SCHEME END *************/
+
+
+//Fonts
+
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('../fonts/Ubuntu-R.ttf') format('truetype');
+}

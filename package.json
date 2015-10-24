@@ -1,0 +1,36 @@
+{
+  "name": "start-static",
+  "version": "1.0.0",
+  "description": "This is start project for static site with gulp and sass",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xto3na/start-static.git"
+  },
+  "keywords": [
+    "start"
+  ],
+  "author": "xto3na",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xto3na/start-static/issues"
+  },
+  "homepage": "https://github.com/xto3na/start-static#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-babel": "^5.3.0",
+    "gulp-imagemin": "^2.3.0",
+    "gulp-livereload": "^3.8.1",
+    "gulp-minify-css": "^1.2.1",
+    "gulp-rigger": "^0.5.8",
+    "gulp-sass": "^2.0.4",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^1.4.2",
+    "gulp-watch": "^4.3.5",
+    "imagemin-pngquant": "^4.2.0"
+  }
+}

@@ -1,0 +1,1 @@
+//= partials/module.js

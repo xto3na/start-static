@@ -1,0 +1,25 @@
+{
+  "name": "start-static",
+  "version": "1.0.0",
+  "homepage": "https://github.com/xto3na/start-static",
+  "authors": [
+    "xto3na <xto3na@gmail.com>"
+  ],
+  "description": "This is a start project for static site with gulp and sass",
+  "main": "main.js",
+  "keywords": [
+    "start"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.5"
+  }
+}
