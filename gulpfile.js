@@ -3,7 +3,7 @@
 'use strict';
 
 var gulp = require('gulp'),
-	prefixer = require('gulp-autoprefixer'),
+    prefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
@@ -13,7 +13,8 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload'),
     babel = require('gulp-babel'),
     watch = require('gulp-watch'),
-    pngquant = require('imagemin-pngquant');
+    pngquant = require('imagemin-pngquant'),
+    connect = require('gulp-connect');
 
 
 var path = {
@@ -48,7 +49,8 @@ var path = {
 gulp.task('html:build', function () {
     gulp.src(path.src.html) //Выберем файлы по нужному пути
         .pipe(rigger()) //Прогоним через rigger
-        .pipe(gulp.dest(path.build.html));
+        .pipe(gulp.dest(path.build.html))
+        .pipe(livereload());
 });
 
 //js
@@ -59,7 +61,8 @@ gulp.task('js:build', function () {
         .pipe(babel())
         //.pipe(uglify()) //Сожмем наш js
         .pipe(sourcemaps.write()) //Пропишем карты
-        .pipe(gulp.dest(path.build.js));
+        .pipe(gulp.dest(path.build.js))
+        .pipe(livereload());
 });
 
 
@@ -69,7 +72,7 @@ gulp.task('style:build', function () {
         .pipe(sourcemaps.init())
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(prefixer({
-            browsers: ['last 3 versions'],
+            browsers: ['last 7 versions'],
             cascade: true
         })) 
         .pipe(cssmin())
@@ -104,6 +107,16 @@ gulp.task('fonts:build', function() {
 //         .pipe(gulp.dest(path.build.cache));
 // });
 
+// Локальный сервер для разработки
+gulp.task('http-server', function() {
+    connect.server({
+        root: 'build',
+        port: 9000,
+        livereload: true
+    });
+    console.log('Server listening on http://localhost:9000');
+});
+
 
 //build all
 gulp.task('build', [
@@ -134,9 +147,7 @@ gulp.task('watch', function(){
     gulp.watch([path.watch.fonts], function(event, cb) {
         gulp.start('fonts:build');
     });
-    // gulp.watch([path.watch.cache], function(event, cb) {
-    //     gulp.start('cache:build');
-    // });
+    gulp.start('http-server');
 });
 
 

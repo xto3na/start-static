@@ -8,6 +8,10 @@
 			sayHi(){
 				console.log("Hi!", this.name);
 			}
+			static sayBye() {
+				console.log("Bye!");
+			}
 		};
 		new User("Sergej").sayHi();
+		User.sayBye();
 })();
