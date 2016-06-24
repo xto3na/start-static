@@ -23,29 +23,26 @@ var path = {
         js: 'build/js/',
         css: 'build/css/',
         img: 'build/img/',
-        fonts: 'build/fonts/',
-        cache: 'build/'
+        fonts: 'build/fonts/'
     },
     src: { //Пути откуда брать исходники
         html: 'src/**/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
         js: 'src/js/main.js',//В стилях и скриптах нам понадобятся только main файлы
         style: 'src/style/main.scss',
         img: 'src/img/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
-        fonts: 'src/fonts/**/*.*',
-        cache: 'src/cache.manifest'
+        fonts: 'src/fonts/**/*.*'
     },
     watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
         html: 'src/**/*.html',
         js: 'src/js/**/*.js',
         style: 'src/style/**/*.scss',
         img: 'src/img/**/*.*',
-        fonts: 'src/fonts/**/*.*',
-        cache: 'src/cache.manifest'
+        fonts: 'src/fonts/**/*.*'
     },
     clean: './build'
 };
 
-//html
+////html
 gulp.task('html:build', function () {
     gulp.src(path.src.html) //Выберем файлы по нужному пути
         .pipe(rigger()) //Прогоним через rigger
@@ -53,12 +50,12 @@ gulp.task('html:build', function () {
         .pipe(livereload());
 });
 
-//js
+////js
 gulp.task('js:build', function () {
     gulp.src(path.src.js) //Найдем наш main файл
         .pipe(rigger()) //Прогоним через rigger
         .pipe(sourcemaps.init()) //Инициализируем sourcemap
-        .pipe(babel())
+        //.pipe(babel())
         //.pipe(uglify()) //Сожмем наш js
         .pipe(sourcemaps.write()) //Пропишем карты
         .pipe(gulp.dest(path.build.js))
@@ -66,7 +63,7 @@ gulp.task('js:build', function () {
 });
 
 
-//style
+////style
 gulp.task('style:build', function () {
     gulp.src(path.src.style) //Выберем наш main.scss
         .pipe(sourcemaps.init())
@@ -75,7 +72,7 @@ gulp.task('style:build', function () {
             browsers: ['last 7 versions'],
             cascade: true
         })) 
-        .pipe(cssmin())
+        // .pipe(cssmin())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.build.css))
         .pipe(livereload());
@@ -95,19 +92,13 @@ gulp.task('image:build', function () {
 });
 
 
-//fonts(just copy to /build)
+////fonts(just copy to /build)
 gulp.task('fonts:build', function() {
     gulp.src(path.src.fonts)
         .pipe(gulp.dest(path.build.fonts));
 });
 
-////cache(just copy to /build)
-// gulp.task('cache:build', function() {
-//     gulp.src(path.src.cache)
-//         .pipe(gulp.dest(path.build.cache));
-// });
-
-// Локальный сервер для разработки
+////Локальный сервер для разработки
 gulp.task('http-server', function() {
     connect.server({
         root: 'build',
@@ -125,9 +116,7 @@ gulp.task('build', [
     'style:build',
     'fonts:build',
     'image:build'
-    //,'cache:build'
 ]);
-
 
 //watch
 gulp.task('watch', function(){
