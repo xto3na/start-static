@@ -1,7 +1,7 @@
 ;(function () {
     
 'use strict';
-
+ 
 var gulp = require('gulp'),
     prefixer = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
@@ -14,25 +14,28 @@ var gulp = require('gulp'),
     babel = require('gulp-babel'),
     watch = require('gulp-watch'),
     pngquant = require('imagemin-pngquant'),
+    spritesmith  = require('gulp.spritesmith'),
     connect = require('gulp-connect');
 
 
 var path = {
-    build: { //Тут мы укажем куда складывать готовые после сборки файлы
+    build: {
         html: 'build/',
         js: 'build/js/',
         css: 'build/css/',
         img: 'build/img/',
-        fonts: 'build/fonts/'
+        fonts: 'build/fonts/',
+        sprite: 'build/img/sprite'
     },
-    src: { //Пути откуда брать исходники
-        html: 'src/**/*.html', //Синтаксис src/*.html говорит gulp что мы хотим взять все файлы с расширением .html
-        js: 'src/js/main.js',//В стилях и скриптах нам понадобятся только main файлы
+    src: { 
+        html: 'src/**/*.html', 
+        js: 'src/js/main.js',
         style: 'src/style/main.scss',
-        img: 'src/img/**/*.*', //Синтаксис img/**/*.* означает - взять все файлы всех расширений из папки и из вложенных каталогов
-        fonts: 'src/fonts/**/*.*'
+        img: 'src/img/**/*.*', 
+        fonts: 'src/fonts/**/*.*',
+        sprite: 'src/sprite/*.png'
     },
-    watch: { //Тут мы укажем, за изменением каких файлов мы хотим наблюдать
+    watch: { 
         html: 'src/**/*.html',
         js: 'src/js/**/*.js',
         style: 'src/style/**/*.scss',
@@ -44,20 +47,20 @@ var path = {
 
 ////html
 gulp.task('html:build', function () {
-    gulp.src(path.src.html) //Выберем файлы по нужному пути
-        .pipe(rigger()) //Прогоним через rigger
+    gulp.src(path.src.html) 
+        .pipe(rigger()) 
         .pipe(gulp.dest(path.build.html))
         .pipe(livereload());
 });
 
 ////js
 gulp.task('js:build', function () {
-    gulp.src(path.src.js) //Найдем наш main файл
-        .pipe(rigger()) //Прогоним через rigger
-        .pipe(sourcemaps.init()) //Инициализируем sourcemap
-        //.pipe(babel())
-        //.pipe(uglify()) //Сожмем наш js
-        .pipe(sourcemaps.write()) //Пропишем карты
+    gulp.src(path.src.js) 
+        .pipe(rigger()) 
+        .pipe(sourcemaps.init()) 
+        .pipe(babel())
+        .pipe(uglify()) 
+        .pipe(sourcemaps.write()) 
         .pipe(gulp.dest(path.build.js))
         .pipe(livereload());
 });
@@ -65,14 +68,14 @@ gulp.task('js:build', function () {
 
 ////style
 gulp.task('style:build', function () {
-    gulp.src(path.src.style) //Выберем наш main.scss
+    gulp.src(path.src.style) 
         .pipe(sourcemaps.init())
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(prefixer({
             browsers: ['last 7 versions'],
             cascade: true
         })) 
-        // .pipe(cssmin())
+        .pipe(cssmin())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.build.css))
         .pipe(livereload());
@@ -81,14 +84,28 @@ gulp.task('style:build', function () {
 
 ////img
 gulp.task('image:build', function () {
-    gulp.src(path.src.img) //Выберем наши картинки
-        .pipe(imagemin({ //Сожмем их
+    gulp.src(path.src.img) 
+        .pipe(imagemin({ 
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()],
             interlaced: true
         }))
         .pipe(gulp.dest(path.build.img));
+});
+
+////sprite
+gulp.task('sprite', function() {
+    var spriteData = 
+        gulp.src(path.src.sprite) 
+            .pipe(spritesmith({
+                imgName: 'sprite.png',
+                cssName: 'sprite.css',
+                padding: 3
+            }));
+
+    spriteData.img.pipe(gulp.dest(path.build.sprite)); 
+    spriteData.css.pipe(gulp.dest(path.build.sprite)); 
 });
 
 
@@ -98,7 +115,7 @@ gulp.task('fonts:build', function() {
         .pipe(gulp.dest(path.build.fonts));
 });
 
-////Локальный сервер для разработки
+////local server
 gulp.task('http-server', function() {
     connect.server({
         root: 'build',
@@ -109,7 +126,7 @@ gulp.task('http-server', function() {
 });
 
 
-//build all
+////build all
 gulp.task('build', [
     'html:build',
     'js:build',
