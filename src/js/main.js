@@ -1,1 +1,1 @@
-//= partials/module.js
+/* =include partials/module.js */

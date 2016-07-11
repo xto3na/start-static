@@ -7,7 +7,9 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     sass = require('gulp-sass'),
     sourcemaps = require('gulp-sourcemaps'),
-    rigger = require('gulp-rigger'),
+    pug = require('gulp-pug'),
+    include = require("gulp-include"),
+    rename = require("gulp-rename"),
     cssmin = require('gulp-minify-css'),
     imagemin = require('gulp-imagemin'),
     livereload = require('gulp-livereload'),
@@ -28,7 +30,7 @@ var path = {
         sprite: 'build/img/sprite'
     },
     src: { 
-        html: 'src/**/*.html', 
+        html: 'src/*.pug', 
         js: 'src/js/main.js',
         style: 'src/style/main.scss',
         img: 'src/img/**/*.*', 
@@ -36,7 +38,7 @@ var path = {
         sprite: 'src/sprite/*.png'
     },
     watch: { 
-        html: 'src/**/*.html',
+        html: 'src/**/*.pug',
         js: 'src/js/**/*.js',
         style: 'src/style/**/*.scss',
         img: 'src/img/**/*.*',
@@ -47,16 +49,18 @@ var path = {
 
 ////html
 gulp.task('html:build', function () {
-    gulp.src(path.src.html) 
-        .pipe(rigger()) 
-        .pipe(gulp.dest(path.build.html))
-        .pipe(livereload());
+    gulp.src(path.src.html)
+    .pipe(pug({
+    	pretty: true
+    }))
+    .pipe(gulp.dest(path.build.html))
+    .pipe(livereload());
 });
 
 ////js
 gulp.task('js:build', function () {
     gulp.src(path.src.js) 
-        .pipe(rigger()) 
+        .pipe(include())
         .pipe(sourcemaps.init()) 
         .pipe(babel())
         .pipe(uglify()) 
@@ -77,6 +81,7 @@ gulp.task('style:build', function () {
         })) 
         .pipe(cssmin())
         .pipe(sourcemaps.write())
+        .pipe(rename("main.min.css"))
         .pipe(gulp.dest(path.build.css))
         .pipe(livereload());
 });
